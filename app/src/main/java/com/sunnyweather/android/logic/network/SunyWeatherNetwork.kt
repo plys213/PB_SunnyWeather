@@ -10,6 +10,14 @@ import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 object SunyWeatherNetwork {
+
+    //获取weatherService的动态代理对象，使其可以调用接口里的任何方法
+    private val weatherService=ServiceCreator.create(WeatherService::class.java)
+
+    suspend fun getDailyWeather(lng:String,lat:String)= weatherService.getDailyWeather(lng,lat).await()
+    suspend fun getRealtimeWeather(lng:String,lat:String)= weatherService.getRealtimeWeather(lng,lat).await()
+
+    //获取PlaceService的动态代理对象，使其可以调用接口里的任何方法
     private val placeService=ServiceCreator.create(PlaceService::class.java)
 
     suspend fun searchPlaces(query:String)= placeService.searchPlaces(query).await()
